@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompleksitas TSP</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #d3d3d3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding-left: 1rem;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: x-large;
+            font-weight: 800;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: #fff !important;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1 1 300px; /* Lebar tetap untuk setiap kotak */
+        }
+
+        .card h1 {
+            font-size: 2rem;
+            text-align: left; /* Tekst diatur ke kiri */
+        }
+
+        .card p {
+            font-size: 1rem;
+            text-align: left; /* Tekst diatur ke kiri */
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/index.html">RUTEKU</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/index.html">Cari Rute</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Kompleksitas.html">Kompleksitas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/anggota.html">Anggota</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="card">
+        <h1>Brute Force</h1>
+        <p>
+            Kompleksitas waktu di O((𝑛−1)!) di mana 𝑛 adalah jumlah kota yang harus dikunjungi.
+        </p>
+        <p>
+            ( + ) Keakuratannya karena memeriksa setiap kemungkinan rute. <br/>
+            ( - ) Kekurangannya adalah tidak efisien untuk digunakan pada masalah dengan jumlah kota yang besar karena
+            waktu eksekusi yang panjang.
+        </p>
+        <p>
+            Cocok digunakan untuk masalah TSP dengan jumlah kota yang relatif kecil. Namun, untuk masalah TSP yang lebih
+            besar, metode lain seperti Branch and Bound memiliki kompleksitas waktu yang lebih rendah.
+        </p>
+    </div>
+    <div class="card">
+        <h1>Branch and Bound</h1>
+        <p>
+            Kompleksitas waktu dari Branch and Bound berkisar antara 𝑂(𝑛² × 2^𝑛) hingga 𝑂(𝑛³ × 2^𝑛), tergantung pada
+            implementasinya.
+        </p>
+        <p>
+            ( + ) Kemampuannya untuk mengurangi jumlah rute yang harus dipertimbangkan secara signifikan. <br/>
+            ( - ) Kompleksitas implementasi yang lebih tinggi dibandingkan dengan algoritma brute force.
+        </p>
+        <p>
+            Cocok digunakan untuk masalah TSP dengan jumlah kota yang besar di mana algoritma brute force tidak praktis
+            karena waktu eksekusi yang sangat lama.
+        </p>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

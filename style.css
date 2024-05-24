@@ -1,0 +1,94 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: #d3d3d3;  
+}
+
+.navbar {
+    background-color: #333;
+    color: #fff;
+    padding-left: 1rem;
+}
+
+.navbar-brand {
+    font-size: x-large;
+    font-weight: 800;
+}
+
+.navbar-brand, .nav-link {
+    color: #fff !important;
+}
+
+#map {
+  height: 800px;
+  width: 1000px;
+}
+
+.vertical-divider {
+    border-left: 1px solid #555;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.map-full-height {
+    height: calc(100vh - 4rem); /* Full height minus navbar */
+    min-height: 500px;
+}
+
+h2, h3, h4, p, label {
+    color: #f0f0f0;
+}
+
+.form-control {
+    background-color: #333;
+    color: #f0f0f0;
+    border: 1px solid #555;
+}
+
+.form-control:focus {
+    background-color: #444;
+    color: #f0f0f0;
+    border-color: #777;
+}
+
+.form-control::placeholder {
+    color: #bdc6cf; /* Ubah warna placeholder sesuai kebutuhan */
+}
+
+
+
+.border {
+    border-color: #444 !important;
+}
+
+.mb-3 label {
+    color: #d3d3d3;
+}
+
+.directions li span.arrow {
+    display: inline-block;
+    min-width: 28px;
+    min-height: 28px;
+    background-position: 0px;
+    background-image: url("https://heremaps.github.io/maps-api-for-javascript-examples/map-with-route-from-a-to-b/img/arrows.png");
+    position: relative;
+    top: 8px;
+  }
+  .directions li span.depart {
+    background-position: -28px;
+  }
+  .directions li span.rightturn {
+    background-position: -224px;
+  }
+  .directions li span.leftturn {
+    background-position: -252px;
+  }
+  .directions li span.arrive {
+    background-position: -1288px;
+  }
+
