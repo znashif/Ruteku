@@ -19,8 +19,8 @@ const shopInputsContainer = document.getElementById("shopInputs");
 const extraShopInputsContainer = document.getElementById("extraShopInputs");
 
 addShopBtn.addEventListener("click", function () {
-  if (extraShopInputsContainer.children.length < 9) {
-    // Maksimal 7 input tambahan
+  if (extraShopInputsContainer.children.length < 20) {
+    // Maksimal20 input tambahan
     const newShopInput = document.createElement("div");
     newShopInput.classList.add("mb-3");
     const index = extraShopInputsContainer.children.length + 2;
@@ -32,7 +32,7 @@ addShopBtn.addEventListener("click", function () {
     jmlhToko++;
 
     // Nonaktifkan tombol "Tambah Toko" jika sudah mencapai 10 input
-    if (extraShopInputsContainer.children.length === 9) {
+    if (extraShopInputsContainer.children.length === 20) {
       addShopBtn.disabled = true;
     }
   }
@@ -89,14 +89,14 @@ function showRoute(warehouse, shops, clearMap = true) {
 
   // Menampilkan marker gudang
   // Membuat ikon kustom dengan warna yang diinginkan untuk marker gudang
-const warehouseIcon = new H.map.Icon(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"><path fill="blue" d="M12 2c-3.31 0-6 2.69-6 6 0 3.86 6 14 6 14s6-10.14 6-14c0-3.31-2.69-6-6-6zm0 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'
-);
+  const warehouseIcon = new H.map.Icon(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"><path fill="blue" d="M12 2c-3.31 0-6 2.69-6 6 0 3.86 6 14 6 14s6-10.14 6-14c0-3.31-2.69-6-6-6zm0 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'
+  );
   // Membuat marker gudang dengan ikon kustom
-const warehouseMarker = new H.map.Marker(
-  { lat: warehouse.latitude, lng: warehouse.longitude },
-  { icon: warehouseIcon }
-);
+  const warehouseMarker = new H.map.Marker(
+    { lat: warehouse.latitude, lng: warehouse.longitude },
+    { icon: warehouseIcon }
+  );
   warehouseMarker.setData("Gudang");
   map.addObject(warehouseMarker);
   mapObjects.push(warehouseMarker);
@@ -382,112 +382,119 @@ async function branchAndBoundTSP(locations) {
 }
 
 // Tampilkan rute
-document.getElementById("bruteforceBtn").addEventListener("click", async function () {
-  // Inisialisasi platform HERE
-  var platform = new H.service.Platform({
-    apikey: window.apikey,
-  });
-  
-  // Mendapatkan nilai koordinat gudang dari input form
-  const warehouseInput = document
-    .getElementById("warehouseInput")
-    .value.split(",")
-    .map(Number);
-  
-  // Membuat objek Point untuk gudang
-  const warehouse = new Point(
-    "Warehouse",
-    warehouseInput[0],
-    warehouseInput[1]
-  );
+document
+  .getElementById("bruteforceBtn")
+  .addEventListener("click", async function () {
+    // Inisialisasi platform HERE
+    var platform = new H.service.Platform({
+      apikey: window.apikey,
+    });
 
-  // Mendapatkan jumlah toko dari input user
-  const jmlhToko = extraShopInputsContainer.children.length+1;
+    // Mendapatkan nilai koordinat gudang dari input form
+    const warehouseInput = document
+      .getElementById("warehouseInput")
+      .value.split(",")
+      .map(Number);
 
-  // Definisikan objek locations untuk menyimpan lokasi gudang dan toko-toko
-  const locations = { Warehouse: warehouse };
-
-  // Mendapatkan nilai koordinat toko dari input form dan membuat objek Point untuk setiap toko
-  for (let i = 1; i <= jmlhToko; i++) {
-    const shopInput = document.getElementById(`shopInput${i}`).value.split(",").map(Number);
-    const shop = new Point(`Shop ${i}`, shopInput[0], shopInput[1]);
-    locations[`Shop ${i}`] = shop;
-  }
-
-  // Panggil fungsi bruteForceTSP dan dapatkan hasil optimal route
-  const bruteforceResult = await bruteForceTSP(locations);
-  const optimalRoute = bruteforceResult.optimalRoute;
-
-  // Menggunakan urutan rute dari hasil bruteForceTSP untuk memanggil calculateRouteFromAtoB
-  for (let i = 0; i < optimalRoute.length - 1; i++) {
-    const startPoint = locations[optimalRoute[i]];
-    const endPoint = locations[optimalRoute[i + 1]];
-    calculateRouteFromAtoB(
-      platform,
-      startPoint,
-      endPoint,
-      onSuccess,
-      onError
+    // Membuat objek Point untuk gudang
+    const warehouse = new Point(
+      "Warehouse",
+      warehouseInput[0],
+      warehouseInput[1]
     );
-  }
 
-  console.log("Menampilkan rute dari algoritma Brute Force");
-});
+    // Mendapatkan jumlah toko dari input user
+    const jmlhToko = extraShopInputsContainer.children.length + 1;
 
+    // Definisikan objek locations untuk menyimpan lokasi gudang dan toko-toko
+    const locations = { Warehouse: warehouse };
 
+    // Mendapatkan nilai koordinat toko dari input form dan membuat objek Point untuk setiap toko
+    for (let i = 1; i <= jmlhToko; i++) {
+      const shopInput = document
+        .getElementById(`shopInput${i}`)
+        .value.split(",")
+        .map(Number);
+      const shop = new Point(`Shop ${i}`, shopInput[0], shopInput[1]);
+      locations[`Shop ${i}`] = shop;
+    }
 
-document.getElementById("branchboundBtn").addEventListener("click", async function () {
-  // Inisialisasi platform HERE
-  var platform = new H.service.Platform({
-    apikey: window.apikey,
+    // Panggil fungsi bruteForceTSP dan dapatkan hasil optimal route
+    const bruteforceResult = await bruteForceTSP(locations);
+    const optimalRoute = bruteforceResult.optimalRoute;
+
+    // Menggunakan urutan rute dari hasil bruteForceTSP untuk memanggil calculateRouteFromAtoB
+    for (let i = 0; i < optimalRoute.length - 1; i++) {
+      const startPoint = locations[optimalRoute[i]];
+      const endPoint = locations[optimalRoute[i + 1]];
+      calculateRouteFromAtoB(
+        platform,
+        startPoint,
+        endPoint,
+        onSuccess,
+        onError
+      );
+    }
+
+    console.log("Menampilkan rute dari algoritma Brute Force");
   });
-  
-  // Mendapatkan nilai koordinat gudang dari input form
-  const warehouseInput = document
-    .getElementById("warehouseInput")
-    .value.split(",")
-    .map(Number);
-  
-  // Membuat objek Point untuk gudang
-  const warehouse = new Point(
-    "Warehouse",
-    warehouseInput[0],
-    warehouseInput[1]
-  );
 
-  // Mendapatkan jumlah toko dari input user
-  const jmlhToko = extraShopInputsContainer.children.length+1;
+document
+  .getElementById("branchboundBtn")
+  .addEventListener("click", async function () {
+    // Inisialisasi platform HERE
+    var platform = new H.service.Platform({
+      apikey: window.apikey,
+    });
 
-  // Definisikan objek locations untuk menyimpan lokasi gudang dan toko-toko
-  const locations = { Warehouse: warehouse };
+    // Mendapatkan nilai koordinat gudang dari input form
+    const warehouseInput = document
+      .getElementById("warehouseInput")
+      .value.split(",")
+      .map(Number);
 
-  // Mendapatkan nilai koordinat toko dari input form dan membuat objek Point untuk setiap toko
-  for (let i = 1; i <= jmlhToko; i++) {
-    const shopInput = document.getElementById(`shopInput${i}`).value.split(",").map(Number);
-    const shop = new Point(`Shop ${i}`, shopInput[0], shopInput[1]);
-    locations[`Shop ${i}`] = shop;
-  }
-
-  // Panggil fungsi branchAndBoundTSP dan dapatkan hasil optimal route
-  const branchAndBoundResult = await branchAndBoundTSP(locations);
-  const optimalRoute = branchAndBoundResult.optimalRoute;
-
-  // Menggunakan urutan rute dari hasil branchAndBoundTSP untuk memanggil calculateRouteFromAtoB
-  for (let i = 0; i < optimalRoute.length - 1; i++) {
-    const startPoint = locations[optimalRoute[i]];
-    const endPoint = locations[optimalRoute[i + 1]];
-    calculateRouteFromAtoB(
-      platform,
-      startPoint,
-      endPoint,
-      onSuccess,
-      onError
+    // Membuat objek Point untuk gudang
+    const warehouse = new Point(
+      "Warehouse",
+      warehouseInput[0],
+      warehouseInput[1]
     );
-  }
 
-  console.log("Menampilkan rute dari algoritma Branch and Bound");
-});
+    // Mendapatkan jumlah toko dari input user
+    const jmlhToko = extraShopInputsContainer.children.length + 1;
 
+    // Definisikan objek locations untuk menyimpan lokasi gudang dan toko-toko
+    const locations = { Warehouse: warehouse };
+
+    // Mendapatkan nilai koordinat toko dari input form dan membuat objek Point untuk setiap toko
+    for (let i = 1; i <= jmlhToko; i++) {
+      const shopInput = document
+        .getElementById(`shopInput${i}`)
+        .value.split(",")
+        .map(Number);
+      const shop = new Point(`Shop ${i}`, shopInput[0], shopInput[1]);
+      locations[`Shop ${i}`] = shop;
+    }
+
+    // Panggil fungsi branchAndBoundTSP dan dapatkan hasil optimal route
+    const branchAndBoundResult = await branchAndBoundTSP(locations);
+    const optimalRoute = branchAndBoundResult.optimalRoute;
+
+    // Menggunakan urutan rute dari hasil branchAndBoundTSP untuk memanggil calculateRouteFromAtoB
+    for (let i = 0; i < optimalRoute.length - 1; i++) {
+      const startPoint = locations[optimalRoute[i]];
+      const endPoint = locations[optimalRoute[i + 1]];
+      calculateRouteFromAtoB(
+        platform,
+        startPoint,
+        endPoint,
+        onSuccess,
+        onError
+      );
+    }
+
+    console.log("Menampilkan rute dari algoritma Branch and Bound");
+  });
 
 // Function untuk rute
 function onSuccess(result) {
