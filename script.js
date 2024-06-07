@@ -193,6 +193,14 @@ document
     document.getElementById("bruteforceDistance").textContent =
       bruteforceResult.minDistance.toFixed(2);
 
+    const hargaBbmPerLiter = 10000;
+    const jarak1 = bruteforceResult.minDistance;
+    const hitungBiaya1 = (jarak1 / 10) * hargaBbmPerLiter;
+    console.log("Biaya perjalanan:", hitungBiaya1);
+
+    document.getElementById("bruteforceCost").textContent =
+      hitungBiaya1.toFixed(2);
+
     const branchAndBoundResult = await bruteForceTSP(locations);
     console.log("Branch and Bound Result:", branchAndBoundResult);
     // Masukkan hasil perhitungan branch and bound ke dalam elemen HTML
@@ -202,6 +210,13 @@ document
       branchAndBoundResult.formattedRoute;
     document.getElementById("branchboundDistance").textContent =
       branchAndBoundResult.minDistance.toFixed(2);
+
+    const jarak2 = branchAndBoundResult.minDistance;
+    const hitungBiaya2 = (jarak2 / 10) * hargaBbmPerLiter;
+    console.log("Biaya perjalanan:", hitungBiaya2);
+
+    document.getElementById("branchboundCost").textContent =
+      hitungBiaya2.toFixed(2);
   });
 
 // Fungsi untuk menghitung jarak antara dua lokasi menggunakan OpenStreetMap API
